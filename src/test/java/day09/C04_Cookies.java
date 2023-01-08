@@ -15,7 +15,7 @@ public class C04_Cookies extends TestBase {
         System.out.println("Sayfada "+cookieSayisi+ " adet cookie var");
 //        3. Bir Cookie yi ismiyle bul
 //        tum cokkie leri yazdiralim
-//        allCookies.stream().forEach(t -> System.out.println(t.getName()));
+//        allCookies.stream().forEach(t -> System.out.println(t.getName()));//LAMDA
         for (Cookie eachCookie : allCookies){
             System.out.println("COOKIE : "+eachCookie);//COOKIE NIN TAMAMINI YAZDIK
             System.out.println("COOKIE ISIMLERI : " + eachCookie.getName());

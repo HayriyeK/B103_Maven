@@ -16,7 +16,8 @@ public class C03_BasicAuthentication extends TestBase {
 //                                 https://the-internet.herokuapp.com/basic_auth
         driver.get("https://admin:admin@the-internet.herokuapp.com/basic_auth");
         waitFor(3);
-        String actualText = driver.findElement(By.xpath("//p")).getText();
-        Assert.assertTrue(actualText.contains("Congratulations!"));
+       // String actualText = driver.findElement(By.xpath("//p")).getText();
+       // Assert.assertTrue(actualText.contains("Congratulations!"));
+       Assert.assertTrue(driver.findElement(By.xpath("//p")).getText().contains("Congratulations!"));
     }
 }
