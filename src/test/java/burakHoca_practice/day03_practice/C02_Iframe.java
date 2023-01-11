@@ -1,4 +1,4 @@
-package day03_practice;
+package burakHoca_practice.day03_practice;
 
 import org.junit.Assert;
 import org.junit.Test;
