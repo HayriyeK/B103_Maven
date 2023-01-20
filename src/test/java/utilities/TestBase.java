@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -27,12 +26,12 @@ public abstract class TestBase {
     protected static WebDriver driver;
     //    setUp
     @Before
-    public void setup(){
+    public void setup()  {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
 //        driver=WebDriverManager.chromedriver().create();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));//20 SANIYEYE KADAR BEKLE.SELENIUM
     }
     //    tearDown
     @After
@@ -89,12 +88,10 @@ public abstract class TestBase {
     }
     //    ACTIONS_SCROLL_DOWN
     public static void scrollDownActions() {
-//        Actions actions = new Actions(driver);
         new Actions(driver).sendKeys(Keys.PAGE_DOWN).perform();
     }
     //    ACTIONS_SCROLL_UP
     public static void scrollUpActions() {
-//        Actions actions = new Actions(driver);
         new Actions(driver).sendKeys(Keys.PAGE_UP).perform();
     }
     //    ACTIONS_SCROLL_RIGHT
@@ -133,6 +130,7 @@ public abstract class TestBase {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
+    //COK KULLANILMAZ
     public static void clickWithTimeOut(WebElement element, int timeout) {
         for (int i = 0; i < timeout; i++) {
             try {
@@ -143,7 +141,7 @@ public abstract class TestBase {
             }
         }
     }
-    //    This can be used when a new page opens
+    //    This can be used when a new page opens. Yeni sagfaya gecislerde kullanilabilir
     public static void waitForPageToLoad(long timeout) {
         ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver driver) {
@@ -183,7 +181,7 @@ public abstract class TestBase {
     }
     //    SCREENSHOT
 //    @params: WebElement
-//    takes screenshot
+//
     public void takeScreenshotOfElement(WebElement element) throws IOException {
 //        1. take screenshot
         File image = element.getScreenshotAs(OutputType.FILE);
@@ -194,6 +192,8 @@ public abstract class TestBase {
         FileUtils.copyFile(image,new File(path));
     }
     //    SCROLLINTOVIEWJS
+//    @param : WebElement
+//    Verilen webelementin uzerine kaydirir
     public void scrollIntoViewJS(WebElement element){
         JavascriptExecutor js = (JavascriptExecutor)driver;
         js.executeScript("arguments[0].scrollIntoView(true);",element);
@@ -220,19 +220,17 @@ public abstract class TestBase {
     public void typeWithJS(WebElement element, String metin){
         JavascriptExecutor js = (JavascriptExecutor)driver;
         js.executeScript("arguments[0].setAttribute('value','"+metin+"')",element);
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //    input elementindeki degerleri(value) al
+//   Belirli bir WebElement'in id değerini String olarak alır ve value attribute değerini String olarak döndürür
+//    return
+//    document HTML'E GIT
+//    .getElementById('" + idOfElement + "') ID'si VERILEN ELEMENTI BUL
+//    .value")
+//    .toString();
+    public void getValueByJS(String idOfElement) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String text = js.executeScript("return document.getElementById('" + idOfElement + "').value").toString();
+        System.out.println("Kutudaki value: " + text);
+    }
 }

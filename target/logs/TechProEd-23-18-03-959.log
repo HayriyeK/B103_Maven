@@ -1,0 +1,4 @@
+2023-01-20 23:18:03,948 FATAL a.d.C02_Loj4J [main] Fatal log!
+2023-01-20 23:18:03,965 ERROR a.d.C02_Loj4J [main] Error log!
+2023-01-20 23:18:03,966 WARN a.d.C02_Loj4J [main] Warn Log!
+2023-01-20 23:18:03,966 INFO a.d.C02_Loj4J [main] Info Log!
