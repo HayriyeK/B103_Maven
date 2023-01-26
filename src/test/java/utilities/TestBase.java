@@ -1,4 +1,7 @@
 package utilities;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -18,26 +21,40 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 public abstract class TestBase {
-    //    TestBase i abstract yapmamizin sebebi bu sinifin objesini olusturmak istemiyorum
-//    TestBase testBase = new TestBase(); -> YAPILAMAZ
-//    Amacim bu sinifi extend etmek ve icindeki hazir metodlari kullanmak
-//    driver objesini olustur. Driver ya public yada protected olmali.
-//    Sebepi child classlarda gorulebilir olmasi
     protected static WebDriver driver;
-    //    setUp
+    /*
+    1- <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports --> pom.xml'e yüklemek
+    2- Eğer extentReport almak istersek ilk yapmamız gereken ExtentReport class'ından bir obje oluşturmak
+    3- HTLM formatında düzenleneceği için ExtentHtmlReporter class'ından obje oluşturmak
+     */
+    protected ExtentReports extentReports;//Raporlamayı başlatırız
+    protected ExtentHtmlReporter extentHtmlReporter;//Raporumu HTLM formatında düzenler
+    protected ExtentTest extentTest; //Test aşamalarına extentTest objesi ile bilgi ekleriz
     @Before
-    public void setup()  {
+    public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-//        driver=WebDriverManager.chromedriver().create();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));//20 SANIYEYE KADAR BEKLE.SELENIUM
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        //----------------------------------------------------------------
+        extentReports = new ExtentReports();
+        String tarih = new SimpleDateFormat("hh_mm_ss_ddMMyyyy").format(new Date());
+        String dosyaYolu = "target/ExtentReports/htmlreport" + tarih + ".html";
+        extentHtmlReporter = new ExtentHtmlReporter(dosyaYolu);
+        extentReports.attachReporter(extentHtmlReporter);
+        //Raporda gözükmesini istediğimiz bilgiler için
+        extentReports.setSystemInfo("Browser", "Chrome");
+        extentReports.setSystemInfo("Tester", "Erol");
+        extentHtmlReporter.config().setDocumentTitle("Extent Report");
+        extentHtmlReporter.config().setReportName("Test Sonucu");
+        extentTest = extentReports.createTest("Extent Tests", "Test Raporu");
     }
     //    tearDown
     @After
     public void tearDown(){
         waitFor(5);
         driver.quit();
+            extentReports.flush();
     }
     //    MULTIPLE WINDOW:
 //    1 parametre alir : Gecis Yapmak Istedigim sayfanin Title
